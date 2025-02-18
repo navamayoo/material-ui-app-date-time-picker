@@ -28,23 +28,6 @@
   color: #61dafb;
 }
 
-.globalClearButton{
-  background: none;
-  border: none;
-  font-size: 12px;
-  color: #fff;
-  width: 26px;
-    height: 25px;
-   
-}
-.globalClearButton:hover{ 
-  background: #444;
-  border-radius: 50%;
-}
-.globalClearButton svg{
-  font-size: 14px;
-}
-
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);

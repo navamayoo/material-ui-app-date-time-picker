@@ -6,19 +6,14 @@ import { format } from "date-fns";
 function App() {
   const [selectedDate, setSelectedDate] = useState(null);
 
-  // const handleValueChange = (newDate) => {
-  //   setSelectedDate(newDate ? format(new Date(newDate), "yyyy-MM-dd") : null);
-  // };
-
   const handleValueChange = (newDate) => {
-    debugger;
     if (newDate) {
-      setSelectedDate(format(new Date(newDate), "yyyy-MM-dd"));
+      console.log("newDate---->", newDate);
+      setSelectedDate(newDate);
     } else {
       setSelectedDate(null);
     }
   };
-
 
   return (
     <div className="App">
@@ -35,12 +30,11 @@ function App() {
           variant="inline"
           format="dd/MM/yyyy"
           margin="normal"
-          // minDate={new Date(Date.now())}
           clearValueButton={true}
           autoOk={true}
           clearable={true}
           inputProps={{
-            "aria-label": "Single Release Date"
+            "aria-label": "Single Release Date",
           }}
           value={selectedDate}
           onChange={(newDate) => handleValueChange(newDate)}
@@ -48,7 +42,7 @@ function App() {
         />
         <h6>
           {selectedDate
-            ? selectedDate
+            ? format(new Date(selectedDate), "dd/MM/yyyy")
             : "No date selected"}
         </h6>
       </div>

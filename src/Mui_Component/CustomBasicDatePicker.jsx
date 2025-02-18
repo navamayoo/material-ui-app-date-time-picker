@@ -1,15 +1,14 @@
-import React from "react";
+import * as React from "react";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import TextField from "@mui/material/TextField";
-import { Box, Button, IconButton } from "@mui/material";
+import { Box, Button, IconButton, TextField } from "@mui/material";
 import { InputAdornment } from "@mui/material";
 import ClearIcon from "@mui/icons-material/Clear";
 import "../App.css";
 
 export default function BasicDatePicker({
-  selectedDate,
+  value,
   name,
   className,
   classes,
@@ -19,7 +18,6 @@ export default function BasicDatePicker({
   margin,
   minDate,
   autoOk,
-  value,
   inputProps,
   disabled,
   onChange,
@@ -40,7 +38,7 @@ export default function BasicDatePicker({
           format={format}
           margin={margin}
           minDate={minDate}
-          value={selectedDate}
+          value={value}
           autoOk={autoOk}
           inputProps={inputProps}
           onChange={(event) => {
@@ -49,36 +47,65 @@ export default function BasicDatePicker({
             }
           }}
           views={yearView ? ["year"] : undefined} // Display only the year
-          slotProps={{
-            textField: {
-              InputProps: {
+          renderInput={(params) => (
+            <TextField
+              {...params}
+              InputProps={{
+                ...params.InputProps, 
                 endAdornment: (
-                  <InputAdornment position="end">
-                    {clearValueButton && clearable && (
-                      <div className="globalClearButton">
+                  <>
+                    {params.InputProps?.endAdornment}{" "}
+                    
+                    {value && ( // Conditionally render the clear icon
+                      <InputAdornment position="end">
                         <IconButton
-                          title="Clear value"
-                          aria-label="Clear value"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            if (onClearValueEvent) {
-                              onClearValueEvent(e);
-                            }
-                          }}
+                          onClick={onClearValueEvent}
+                          edge="end"
+                          size="small"
                         >
                           <ClearIcon />
                         </IconButton>
-                      </div>
+                      </InputAdornment>
                     )}
-                  </InputAdornment>
+                  </>
                 )
-              }
-            }
-          }}
+              }}
+            />
+          )}
+          // InputProps={{
+          //   endAdornment: (
+          //     <InputAdornment position="end">
+          //       {clearValueButton && (
+          //         <>
+          //           <div >
+          //             <IconButton
+          //               title="Clear value"
+          //               aria-label="Clear value"
+          //               onClick={(e) => {
+          //                 e.stopPropagation();
+          //                 if (onClearValueEvent) {
+          //                   onClearValueEvent(e);
+          //                 }
+          //               }}
+          //             >
+          //               <AppsIcon />
+          //             </IconButton>
+          //           </div>
+          //         </>
+          //       )}
+          //     </InputAdornment>
+          //   )
+          // }}
         />
-        <Button variant="outlined" onClick={onClearValueEvent}>
-          Clear
-        </Button>
+        <IconButton
+          title="Clear value"
+          aria-label="Clear value"
+          onClick={(e) => {
+            onClearValueEvent(e);
+          }}
+        >
+          <ClearIcon />
+        </IconButton>
       </Box>
     </LocalizationProvider>
   );
